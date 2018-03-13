@@ -1,4 +1,4 @@
-# ADLINK NeuronBot (demo cases for ADLINK-Neuron platform)   
+# ADLINK NeuronBot
 
 ## Abstract  
 The purpose of this pkg is to demonstrate two main features of ADLINK Neuron miniITX platform.   
@@ -44,7 +44,7 @@ Copyright 2018 ADLINK Technology, Inc.
 * YDLidar:  
   https://github.com/EAIBOT/ydlidar  
 
-### Launching Stpes
+### Launching Steps
 * Mapping & Time Synchronizing  
 * Host robot (for following)  
   $ roslaunch adlink_neuronbot NeuronBot_Demo_Host_AIO.launch  
