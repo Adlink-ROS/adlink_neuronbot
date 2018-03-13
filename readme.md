@@ -56,6 +56,6 @@ Copyright 2018 ADLINK Technology, Inc.
   $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Client_AutoStart.sh  
 
 ### Known Issues
-* Q: move_base replanning does not work
-  A: update your move_base pkg to the latest one, or compile it from source
+* Q: move_base replanning does not work  
+  A: update your move_base pkg to the latest one, or compile it from source  
  
