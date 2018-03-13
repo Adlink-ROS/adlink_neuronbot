@@ -1,0 +1,5 @@
+# Create pkg
+$ catkin_create_pkg adlink_neuronbot rospy roscpp move_base tf nav_msgs std_msgs geometry_msgs message_generation dynamic_reconfigure costmap_2d visualization_msgs people_msgs
+
+# Calibration
+$ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.0246 image:=/astra_pro/rgb/image_raw camera:=/astra_pro/rgb

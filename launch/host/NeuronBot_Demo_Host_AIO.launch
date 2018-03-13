@@ -1,0 +1,14 @@
+<launch>
+    <!-- All Drivers -->    
+    <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_AllDrivers.launch"/>
+
+    <!-- Detection -->
+    <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_Detection.launch"/>
+
+    <!-- Following -->
+    <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_Following.launch"/>
+
+    <!-- Localization (amcl) -->
+    <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_Localization.launch"/>
+
+</launch>

@@ -1,0 +1,3 @@
+roslaunch realsense_ros_camera rs_camera.launch enable_pointcloud:=true enable_sync:=true
+roslaunch object_analytics_launch analytics_movidius_ncs.launch input_points:=/camera/depth/color/points
+

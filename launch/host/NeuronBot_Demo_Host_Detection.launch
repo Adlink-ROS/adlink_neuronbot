@@ -1,0 +1,121 @@
+<launch>
+    <!-- ********************* -->    
+    <!-- Launch file arguments -->
+    <!-- ********************* -->
+    <arg name="height_above_ground" default="1.6"/>    <!-- in meters, assumes a horizontally oriented RGB-D sensor; important for accurate detection -->
+    <arg name="dummy_transforms"    default="false"/>  <!-- publish TF transform for sensor to groundplane -->
+    <arg name="upper_body_detector" default="true"/>   <!-- use depth-template-based upper-body detector? -->
+    <arg name="visualization"       default="false"/>   <!-- start Rviz with predefined configuration? -->
+    <arg name="rgb_image"    default="/astra_pro/rgb/image_raw"/>
+    <arg name="rgb_info"     default="/astra_pro/rgb/camera_info"/>
+    <arg name="depth_image"  default="/astra_pro/depth/image"/>
+    <arg name="depth_info"   default="/astra_pro/depth/camera_info"/>   
+    <arg name="points_topic" default="/astra_pro/depth/points" /> 
+
+    <!-- Set up dummy transforms into an imaginary robot and odom frame -->
+    <group if="$(arg dummy_transforms)">       
+        <node name="tf_top2camera" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 top_base_link astra_pro_link 10"/>        
+        <node name="tf_base2top"   pkg="tf" type="static_transform_publisher" args="0 0 $(arg height_above_ground) 0 0 0 base_footprint top_base_link 10"/>
+        <node name="tf_odom2base"  pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 odom base_footprint 10"/>
+    </group>
+
+    <!-- *************** -->
+    <!-- Depth Detectors -->
+    <!-- *************** -->
+    <!-- RWTH tf based groundplane -->
+    <arg name="ground_plane" value="/upper_body_detector/ground_plane"/>
+    <arg name="detection_id_increment" default="20"/>
+    <arg name="upper_body_detector_topic" default="/spencer/perception_internal/detected_persons/rgbd_front_top/upper_body"/>
+
+    <node pkg="rwth_ground_plane" type="ground_plane_tf_based_fixed" name="ground_plane_front_top" output="screen">
+        <param name="base_footprint" value="base_footprint" type="string"/>
+        <param name="camera_frame"   value="astra_pro_depth_optical_frame" type="string"/>
+        <param name="ground_plane"   value="$(arg ground_plane)" type="string"/>
+        <param name="rate" value="30.0"/>
+    </node>
+
+    <!-- RGBD upper body detector -->
+    <group if="$(arg upper_body_detector)">        
+        <arg name="config_file"   value="$(find adlink_neuronbot)/launch/host/include/params/config_astrapro.inp" />
+        <arg name="template_file" value="$(find rwth_upper_body_detector)/config/upper_temp_n.txt" />
+        <arg name="queue_size"    value="5" />
+        <arg name="detection_id_offset"   value="3"/>
+        <arg name="upper_body_image"      value="/upper_body_detector/image" />
+        <arg name="detected_persons"      value="$(arg upper_body_detector_topic)"/>
+        <arg name="upper_body_detections" value="/upper_body_detector/detections" />
+        <arg name="upper_body_bb_centres" value="/upper_body_detector/bounding_box_centres" />
+
+        <node pkg="rwth_upper_body_detector" type="upper_body_detector" name="upper_body_detector" output="screen" respawn="true">
+            <param name="config_file"    value="$(arg config_file)"   type="string"/>
+            <param name="template_file"  value="$(arg template_file)" type="string"/>
+            <param name="queue_size"     value="$(arg queue_size)"    type="int"/>
+            <param name="upper_body_detections"  value="$(arg upper_body_detections)" type="string"/>
+            <param name="upper_body_bb_centres"  value="$(arg upper_body_bb_centres)" type="string"/>
+            <param name="upper_body_image"       value="$(arg upper_body_image)" type="string"/>
+            <param name="ground_plane"           value="$(arg ground_plane)"     type="string"/>
+            <param name="detected_persons"       value="$(arg detected_persons)" type="string"/>
+            <param name="detection_id_offset"    value="$(arg detection_id_offset)"/>
+            <param name="detection_id_increment" value="$(arg detection_id_increment)"/>
+            <param name="camera_namespace"       value="" />
+            <remap from="/depth/camera_info"    to="$(arg depth_info)" />
+            <remap from="/depth/image_rect"     to="$(arg depth_image)" />
+            <remap from="/rgb/image_rect_color" to="$(arg rgb_image)" />
+        </node>
+    </group>
+
+    <!-- ************* -->
+    <!-- NCS Detectors -->
+    <!-- ************* -->
+    <arg name="manager"   default="manager" />
+    <arg name="namespace" default="movidius_ncs_nodelet" />
+    <arg name="cnn_type"  default="mobilenetssd" />
+
+    <include file="$(find adlink_neuronbot)/launch/host/include/ncs_people_detection_mobilenetssd.launch.xml">
+        <arg name="manager"     value="$(arg manager)" />
+        <arg name="namespace"   value="$(arg namespace)" />
+        <arg name="cnn_type"    value="$(arg cnn_type)" />
+        <arg name="input_topic" value="$(arg rgb_image)" />
+    </include>
+
+    <!-- *************** -->
+    <!-- Lidar Detectors -->
+    <!-- *************** -->
+    <!-- params -->
+    <arg name="leg_tracker_detector_topic" default="/spencer/perception_internal/detected_persons/laser_front"/>
+    <param name="forest_file" value="$(find leg_tracker)/config/trained_leg_detector_res=0.33.yaml" />
+    <param name="scan_topic" value="/scan" />
+    <param name="fixed_frame" value="/odom"/>
+    <param name="scan_frequency" value="7.5"/>  
+
+    <!-- run detect_leg_clusters -->  
+    <param name="min_points_per_cluster" value="7" />
+    <node pkg="leg_tracker" type="detect_leg_clusters" name="detect_leg_clusters" output="screen"/>
+    <!-- run joint_leg_tracker -->
+    <node pkg="leg_tracker" type="joint_leg_tracker.py" name="joint_leg_tracker" output="screen"/>
+    <!-- run local_occupancy_grid_mapping -->
+    <node pkg="leg_tracker" type="local_occupancy_grid_mapping" name="local_occupancy_grid_mapping" output="screen"/> 
+    <!-- msg type conversion -->
+    <node pkg="adlink_neuronbot" type="leg_tracker_to_detected_persons.py" name="leg_msg_conversion" output="screen" >
+        <remap from="/leg_tracker/detected_persons" to="$(arg leg_tracker_detector_topic)" />
+    </node>
+
+
+    <!-- **************** -->
+    <!-- Detection Filter -->
+    <!-- **************** -->
+    <!-- People tracking -->
+    <include file="$(find spencer_people_tracking_launch)/launch/tracking/freiburg_people_tracking.launch">
+        <arg name="rgbd" default="true"/>
+        <arg name="laser_low_confidence_detections" default="true"/>
+    </include>
+
+    <!-- Group tracking -->
+    <include file="$(find spencer_people_tracking_launch)/launch/tracking/group_tracking.launch"/> 
+
+
+    <!-- ************* -->
+    <!-- Visualization -->
+    <!-- ************* -->
+    <!-- RViz visualization -->
+    <node name="tracking_visualization_rviz" pkg="rviz" type="rviz" args="-d $(find adlink_neuronbot)/rviz/people_tracked.rviz" if="$(arg visualization)"/>
+</launch>

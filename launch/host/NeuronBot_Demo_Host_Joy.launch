@@ -1,0 +1,20 @@
+<launch>
+    <!-- params -->
+    <arg name="joy_dev" default="/dev/input/js0" />
+
+    <!-- Joy node -->
+    <node pkg="joy" type="joy_node" name="joystick">
+        <param name="dev"      value="$(arg joy_dev)" />
+        <param name="deadzone" value="0.01" />
+    </node>
+
+    <!-- turtlebot_teleop_joy -->
+    <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
+        <param name="scale_angular" value="0.8"/>
+        <param name="scale_linear" value="0.15"/>
+        <param name="axis_linear" value="1"/>
+        <param name="axis_angular" value="3"/>
+        <remap from="turtlebot_teleop_joystick/cmd_vel" to="/cmd_vel_mux/input/safety_controller"/>
+    </node>
+
+</launch>

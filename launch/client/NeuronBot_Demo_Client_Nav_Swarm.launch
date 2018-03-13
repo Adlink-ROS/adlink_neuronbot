@@ -1,0 +1,88 @@
+<launch>
+    <arg name="multi_goals" default="true" />
+    <arg name="use_dwa"     default="true"  />
+
+    <!-- for amcl -->    
+    <arg name="init_x" default="-0.808" />
+    <arg name="init_y" default="-0.034" />
+    <arg name="init_a" default="-0.530" />
+
+    <!-- Map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find adlink_neuronbot)/map/map.yaml"/>
+
+    <!-- Localization (amcl) -->
+    <include file="$(find adlink_neuronbot)/launch/include/neuronbot_amcl_improved.launch.xml">
+        <arg name="init_x" value="$(arg init_x)"/>
+        <arg name="init_y" value="$(arg init_y)"/>
+        <arg name="init_a" value="$(arg init_a)"/>
+    </include>
+
+    <!-- Navstack -->
+    <node pkg="move_base" type="move_base" respawn="true" name="move_base" >
+        <!-- global planner -->
+        <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+        <rosparam file="$(find adlink_neuronbot)/launch/client/params/global_planner_params.yaml" command="load" />
+        <!-- local planner -->   
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" if="$(arg use_dwa)"/>      
+        <rosparam file="$(find adlink_neuronbot)/launch/client/params/dwa_local_planner_params.yaml" command="load" if="$(arg use_dwa)"/>
+        <rosparam file="$(find adlink_neuronbot)/launch/client/params/base_local_planner_params.yaml" command="load" unless="$(arg use_dwa)" />         
+        <!-- params for move_base -->
+        <param name="planner_frequency" value="4.0" />
+        <param name="controller_frequency" value="10.0" />
+        <param name="controller_patience" value="3.0" />
+        <param name="oscillation_timeout" value="15.0" />
+        <param name="oscillation_distance" value="0.02" />
+        <param name="clearing_rotation_allowed" value="false" />
+        <!-- params for costmap layers --> 
+        <rosparam file="$(find adlink_neuronbot)/launch/client/params/local_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find adlink_neuronbot)/launch/client/params/global_costmap_params.yaml" command="load"/>
+        <remap from="/cmd_vel" to="/cmd_vel_mux/input/navi" />
+    </node>
+
+    <!-- move base -->
+    <node pkg="adlink_neuronbot" type="neuronbot_multi_goals.py" respawn="false" name="multi_goals" output="screen" if="$(arg multi_goals)">
+        <!-- params for move_base -->
+        <param name="goalListX" value="[-0.808,  0.505 ]" />
+        <param name="goalListY" value="[-0.034, -0.755 ]" />
+        <param name="goalListZ" value="[-0.262,  0.968 ]" />
+        <param name="goalListW" value="[ 0.965,  0.252 ]" />
+        <param name="initPosX"  value="$(arg init_x)" />
+        <param name="initPosY"  value="$(arg init_y)" />
+        <param name="initOriZ"  value="-0.262" />
+        <param name="initOriW"  value="0.965" />
+        <param name="initCovX"  value="0.5" />
+        <param name="initCovY"  value="0.5" />
+        <param name="initCovY"  value="0.1" />
+        <param name="map_frame" value="map" />
+    </node>
+
+    <!-- ***************************** -->
+    <!-- ROS 2.0 related nodes/setting -->
+    <!-- ***************************** -->
+    <!-- Parameters for autostart -->
+    <!-- robot id (default based on hostname) for swarm network -->    
+    <arg name="self_id" default="$(env HOSTNAME)" />
+
+    <!-- Setting for ROS 2-1 topics bridge -->
+    <rosparam param="topics">[{'topic':swarm_poses, 'type':geometry_msgs/TransformStamped}, {'topic':swarm_goals, 'type':geometry_msgs/TransformStamped}]</rosparam> 
+
+    <!-- tf to transform node -->
+    <node name="tf_to_transform"   pkg="adlink_neuronbot"  type="neuronbot_tf_to_transform.py" output="screen">
+        <param name="self_id" value="$(arg self_id)"/>
+        <param name="map_frame" value="map" />
+        <param name="base_frame" value="base_footprint" />
+    </node>
+
+    <!-- robot id filter node -->
+    <node name="robot_id_filter"   pkg="adlink_neuronbot"  type="neuronbot_robot_id_filter.py" output="screen">
+        <param name="self_id" value="$(arg self_id)"/>
+        <param name="map_id" value="map"/>
+        <param name="id_timeout" value="1.0"/> <!-- unit: sec -->
+        <param name="fake_radius" value="0.2"/> <!-- unit: meter --> 
+    </node>
+
+    <!-- Goal filter node -->
+    <node name="goal_filter"   pkg="adlink_neuronbot"  type="neuronbot_goal_filter.py" output="screen">
+        <param name="self_id" value="$(arg self_id)"/>
+    </node>
+</launch>

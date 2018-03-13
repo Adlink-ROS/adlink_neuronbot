@@ -1,0 +1,18 @@
+<launch>
+    <arg name="robot_base"     default="kobuki" />
+    <arg name="fake_odom_link" default="false" />
+    <arg name="host_robot"     default="false" />
+
+    <!-- General Drivers -->
+    <!-- YDLidar Driver -->
+    <include file="$(find adlink_neuronbot)/launch/include/ydlidar_driver.launch.xml"/>
+
+    <!-- Robot TF -->
+    <include file="$(find adlink_neuronbot)/launch/include/neuronbot_tf.launch.xml">
+        <arg name="fake_odom_link" value="$(arg fake_odom_link)" />
+        <arg name="host_robot"     value="$(arg host_robot)" />
+    </include>
+
+    <!-- Robot Base -->
+    <include file="$(find adlink_neuronbot)/launch/include/neuronbot_$(arg robot_base).launch.xml" />
+</launch>

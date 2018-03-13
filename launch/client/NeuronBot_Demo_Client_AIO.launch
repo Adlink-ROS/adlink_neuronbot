@@ -1,0 +1,8 @@
+<launch>
+    <!-- All Drivers -->    
+    <include file="$(find adlink_neuronbot)/launch/client/NeuronBot_Demo_Client_AllDrivers.launch"/>
+
+    <!-- Navigation (swarm) -->
+    <include file="$(find adlink_neuronbot)/launch/client/NeuronBot_Demo_Client_Nav_Swarm.launch"/>
+
+</launch>
