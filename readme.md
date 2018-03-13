@@ -9,7 +9,7 @@ The purpose of this pkg is to demonstrate two main features of ADLINK Neuron min
    The host robot (for following) is publishing its own pose with respect to known map through ROS2/DDS layer while following a human.  
    On the other hand, the client robot (random wandering), could avoid the host robot by receiving host's pose and replaning its path.   
    
-[Official Slides] https://github.com/Adlink-ROS/adlink_ddsbot/blob/release-1.0/document/Next-Gen_Smart_Manufacturing.pdf  
+[Official Slides] https://github.com/Adlink-ROS/adlink_neuronbot/blob/master/document/ADLINK_NeuronBot_20180313.pdf  
 [Youtube Video] https://youtu.be/RC6XvTvTs9Y  
 [Youtube Video] https://youtu.be/qA4_Hmnd_tM  
 [![alt text](http://img.youtube.com/vi/RC6XvTvTs9Y/0.jpg)](https://youtu.be/RC6XvTvTs9Y)  
@@ -36,21 +36,21 @@ Copyright 2018 ADLINK Technology, Inc.
   Binary: https://github.com/spencer-project/spencer_people_tracking#installation-from-l-cas-package-repository  
   Compile: https://github.com/spencer-project/spencer_people_tracking#installation-from-source  
 * Intel object analytics  
-  https://github.com/intel/ros_object_analytics
+  https://github.com/intel/ros_object_analytics  
 * Turtlebot2  
   https://github.com/turtlebot/turtlebot  
-* Astra Pro:
-  https://github.com/orbbec/ros_astra_camera
-* YDLidar:
-  https://github.com/EAIBOT/ydlidar
+* Astra Pro:  
+  https://github.com/orbbec/ros_astra_camera  
+* YDLidar:  
+  https://github.com/EAIBOT/ydlidar  
 
 ### Launching Stpes
-* Mapping & Time Synchronizing
-* Host robot (for following)
-  $ roslaunch adlink_neuronbot NeuronBot_Demo_Host_AIO.launch
-  OR (script)
-  $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Host_AutoStart.sh
-* Client robot (for avoidance)
-  $ roslaunch adlink_neuronbot NeuronBot_Demo_Client_AIO.launch
-  OR (script)
-  $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Client_AutoStart.sh
+* Mapping & Time Synchronizing  
+* Host robot (for following)  
+  $ roslaunch adlink_neuronbot NeuronBot_Demo_Host_AIO.launch  
+  OR (script)  
+  $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Host_AutoStart.sh  
+* Client robot (for avoidance)  
+  $ roslaunch adlink_neuronbot NeuronBot_Demo_Client_AIO.launch  
+  OR (script)  
+  $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Client_AutoStart.sh  
