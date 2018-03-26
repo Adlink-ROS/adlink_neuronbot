@@ -16,7 +16,7 @@
 
 import rospy
 import time
-from adlink_ddsbot.msg import MultiRobots, Robot
+from adlink_neuronbot.msg import MultiRobots, Robot
 from geometry_msgs.msg import TransformStamped
 
 class RobotIdFilter:

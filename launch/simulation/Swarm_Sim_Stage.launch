@@ -1,0 +1,68 @@
+<launch>
+    <!-- For Simulation -->
+    <arg name="sim_mode" default="true" />
+    <param name="/use_sim_time" value="$(arg sim_mode)"/>
+    
+    <!-- move base -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node">
+        <!-- params for move_base -->
+        <param name="planner_frequency" value="2" />
+        <param name="controller_frequency" value="10.0" />
+        <param name="controller_patience" value="3.0" />
+        <param name="oscillation_timeout" value="30.0" />
+        <param name="oscillation_distance" value="0.5" />
+        <!-- params for local control (dwa) -->
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+        <rosparam file="$(find adlink_neuronbot)/launch/simulation/includes/dwa_local_planner_params.yaml" command="load" />
+        <!-- params for costmap layers -->        
+        <rosparam file="$(find adlink_neuronbot)/launch/simulation/includes/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find adlink_neuronbot)/launch/simulation/includes/global_costmap_params.yaml" command="load" />
+    </node>
+    
+    <!-- map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find adlink_neuronbot)/launch/simulation/includes/maze.yaml" respawn="false" />
+
+    <!-- stage_ros -->
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find adlink_neuronbot)/launch/simulation/includes/maze.world" respawn="false" >
+        <param name="base_watchdog_timeout" value="0.2"/>
+    </node>
+
+    <!-- AMCL Config -->
+    <include file="$(find adlink_neuronbot)/launch/simulation/includes/amcl_node.xml"/>  
+
+    <!-- RVIZ -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find adlink_neuronbot)/rviz/neuronbot_sim_swarm.rviz" />
+
+    <!-- ***************************** -->
+    <!-- ROS 2.0 related nodes/setting -->
+    <!-- ***************************** -->
+    <!-- Parameters for autostart -->
+    <!-- robot id (default based on hostname) for swarm network -->    
+    <arg name="self_id" default="$(env HOSTNAME)" />
+
+    <!-- Setting for ROS 2-1 topics bridge -->
+    <rosparam param="topics">[{'topic':swarm_poses, 'type':geometry_msgs/TransformStamped}, {'topic':swarm_goals, 'type':geometry_msgs/TransformStamped}]</rosparam> 
+
+    <!-- tf to transform node -->
+    <node name="tf_to_transform"   pkg="adlink_neuronbot"  type="neuronbot_tf_to_transform.py" output="screen">
+        <param name="self_id" value="$(arg self_id)"/>
+        <param name="sim_mode" value="$(arg sim_mode)" />
+        <param name="map_frame" value="map" />
+        <param name="base_frame" value="base_link" />
+    </node>
+
+    <!-- robot id filter node -->
+    <node name="robot_id_filter"   pkg="adlink_neuronbot"  type="neuronbot_robot_id_filter.py" output="screen">
+        <param name="self_id" value="$(arg self_id)"/>
+        <param name="map_id" value="map"/>
+        <param name="id_timeout" value="1"/> <!-- unit: sec -->
+        <param name="fake_radius" value="0.3"/> <!-- unit: meter --> 
+        <param name="sim_mode" value="$(arg sim_mode)" />
+    </node>
+
+    <!-- Goal filter node -->
+    <node name="goal_filter"   pkg="adlink_neuronbot"  type="neuronbot_goal_filter.py" output="screen">
+        <param name="self_id" value="$(arg self_id)"/>
+        <param name="sim_mode" value="$(arg sim_mode)" />
+    </node>
+</launch>
