@@ -32,6 +32,19 @@ Copyright 2018 ADLINK Technology, Inc.
 ## Tutorial
 ### System Prerequisite
 [Packages]  
+* Realsense D400  
+  Source: https://github.com/intel-ros/realsense  
+  Notice: About RealSense SDK 2.0, we highly recommed binary version.  
+  Testing: $ roslaunch realsense2_camera demo_pointcloud.launch  
+  <br />
+* Astra Pro (alternative choose for camera)   
+  Source: https://github.com/orbbec/ros_astra_camera  
+  Notice: If possible, please buy Astra instead of Astra Pro!  
+  <br />
+* YDLidar   
+  Source: https://github.com/EAIBOT/ydlidar  
+  Notice: could be replaced by any type of lidar.  
+  <br />
 * Navigation  
   Binary: $ sudo apt-get install ros-kinetic-navigation*  
   Source: https://github.com/ros-planning/navigation  
@@ -45,6 +58,12 @@ Copyright 2018 ADLINK Technology, Inc.
   <br />
 * Intel object analytics  
   Source: https://github.com/intel/ros_object_analytics  
+  Notice: Tested with NCSDK v1.12  
+  Testing:   
+  ** movidius_ncs:  
+     $ roslaunch realsense2_camera demo_pointcloud.launch  
+     $ roslaunch movidius_ncs_launch ncs_camera.launch cnn_type:=mobilenetssd input_topic:=/camera/color/image_raw    
+     $ roslaunch movidius_ncs_launch ncs_stream_detection_example.launch camera_topic:="/camera/color/image_raw"  
   <br />
 * leg_tracker  
   Source: https://github.com/angusleigh/leg_tracker  
@@ -56,18 +75,7 @@ Copyright 2018 ADLINK Technology, Inc.
   Source: https://github.com/turtlebot/turtlebot  
   Notice: We highly recommed you to install binary version.  
   <br />
-* Realsense D400  
-  Source: https://github.com/intel-ros/realsense  
-  Notice: About RealSense SDK 2.0, we highly recommed binary version.  
-  Testing: $ roslaunch realsense2_camera demo_pointcloud.launch  
-  <br />
-* Astra Pro (alternative choose for camera)   
-  Source: https://github.com/orbbec/ros_astra_camera  
-  Notice: If possible, please buy Astra instead of Astra Pro!  
-  <br />
-* YDLidar   
-  Source: https://github.com/EAIBOT/ydlidar  
-  Notice: could be replaced any type of lidar.  
+
 
 ### Launching Steps
 * Mapping & Time Synchronizing  
