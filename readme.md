@@ -37,27 +37,34 @@ Copyright 2018 ADLINK Technology, Inc.
   Source: https://github.com/ros-planning/navigation  
   Notice: if "replan" mode of global planner is malfunctioned, please compile whole pkgs from source.  
   Testing: $ roslaunch spencer_people_tracking_launch tracking_on_bagfile.launch  
+  <br />
 * SPENCER  
   Binary: https://github.com/spencer-project/spencer_people_tracking#installation-from-l-cas-package-repository  
   Source: https://github.com/spencer-project/spencer_people_tracking#installation-from-source  
   Notice: Unless you want to use HOG+SVM, we highly recommend binary version.  
+  <br />
 * Intel object analytics  
-  https://github.com/intel/ros_object_analytics  
+  Source: https://github.com/intel/ros_object_analytics  
+  <br />
 * leg_tracker  
   Source: https://github.com/angusleigh/leg_tracker  
   Notice: The kinetic branch only supports OpenCv 3.3 and higher ver.  
   Testing: $ roslaunch leg_tracker demo_stationary_simple_environment.launch  
+  <br />
 * Turtlebot2  
   Binaty: $ sudo apt-get install ros-kinetic-turtlebot  
   Source: https://github.com/turtlebot/turtlebot  
   Notice: We highly recommed you to install binary version.  
+  <br />
 * Realsense D400  
   Source: https://github.com/intel-ros/realsense  
-  Notice: About RealSense SDK 2.0, we highly recommed binary version.
+  Notice: About RealSense SDK 2.0, we highly recommed binary version.  
   Testing: $ roslaunch realsense2_camera demo_pointcloud.launch  
+  <br />
 * Astra Pro (alternative choose for camera)   
   Source: https://github.com/orbbec/ros_astra_camera  
   Notice: If possible, please buy Astra instead of Astra Pro!  
+  <br />
 * YDLidar   
   Source: https://github.com/EAIBOT/ydlidar  
   Notice: could be replaced any type of lidar.  
