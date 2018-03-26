@@ -54,18 +54,19 @@ Copyright 2018 ADLINK Technology, Inc.
 * SPENCER  
   Binary: https://github.com/spencer-project/spencer_people_tracking#installation-from-l-cas-package-repository  
   Source: https://github.com/spencer-project/spencer_people_tracking#installation-from-source  
-  Notice: Unless you want to use HOG+SVM, we highly recommend binary version.  
+  Notice: Unless you want to use HOG+SVM [CUDA required], we highly recommend binary version.  
   <br />
 * Intel object analytics  
   Source: https://github.com/intel/ros_object_analytics  
-  Notice: Tested with NCSDK v1.12  
+  Notice: Tested with NCSDK v1.12, ros_object_analytics should be "devel" branch  
   Testing:   
   ** movidius_ncs **  
      $ roslaunch realsense2_camera demo_pointcloud.launch  
      $ roslaunch movidius_ncs_launch ncs_camera.launch cnn_type:=mobilenetssd input_topic:=/camera/color/image_raw    
      $ roslaunch movidius_ncs_launch ncs_stream_detection_example.launch camera_topic:="/camera/color/image_raw"  
   ** object_analytics **  
-     $ 
+     $ roslaunch realsense2_camera demo_pointcloud.launch  
+     $ roslaunch object_analytics_launch analytics_movidius_ncs.launch input_points:=/camera/depth/color/points  
   <br />
 * leg_tracker  
   Source: https://github.com/angusleigh/leg_tracker  
@@ -77,7 +78,6 @@ Copyright 2018 ADLINK Technology, Inc.
   Source: https://github.com/turtlebot/turtlebot  
   Notice: We highly recommed you to install binary version.  
   <br />
-
 
 ### Launching Steps
 * Mapping & Time Synchronizing  
