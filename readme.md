@@ -60,10 +60,12 @@ Copyright 2018 ADLINK Technology, Inc.
   Source: https://github.com/intel/ros_object_analytics  
   Notice: Tested with NCSDK v1.12  
   Testing:   
-  ** movidius_ncs:  
+  ** movidius_ncs **  
      $ roslaunch realsense2_camera demo_pointcloud.launch  
      $ roslaunch movidius_ncs_launch ncs_camera.launch cnn_type:=mobilenetssd input_topic:=/camera/color/image_raw    
      $ roslaunch movidius_ncs_launch ncs_stream_detection_example.launch camera_topic:="/camera/color/image_raw"  
+  ** object_analytics **  
+     $ 
   <br />
 * leg_tracker  
   Source: https://github.com/angusleigh/leg_tracker  
