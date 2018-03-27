@@ -95,4 +95,11 @@ Copyright 2018 ADLINK Technology, Inc.
 ### Known Issues
 * Q: move_base replanning does not work  
   A: update your move_base pkg to the latest one, or compile it from source  
+
+### Roadmap
+* Fix PCL detector  
+* ROS2 driver for camera  
+* Fix followMe node (fused inputs version)  
+* Create custom ROS2/DDS msg  
+* Integrate with object_analytics  
  
