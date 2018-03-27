@@ -1,18 +1,18 @@
 <launch>
-    <arg name="robot_base"     default="kobuki" />
-    <arg name="fake_odom_link" default="false" />
-    <arg name="host_robot"     default="true" />
+    <arg name="robot_base"       default="kobuki" />
+    <arg name="dummy_transforms" default="false" />
+    <arg name="host_robot"       default="true" />
+    <arg name="camera_type"      default="D435" /> <!-- opt: Astra, Astra_Pro, D435 -->
 
-    <!-- ASTRA PRO Driver -->    
-    <include file="$(find adlink_neuronbot)/launch/host/include/astrapro_rgbd_driver.launch.xml"/>
+    <!-- Camera Driver -->    
+    <include file="$(find adlink_neuronbot)/launch/host/include/$(arg camera_type)_rgbd_driver.launch.xml"/>
 
-    <!-- General Drivers -->
     <!-- YDLidar Driver -->
     <include file="$(find adlink_neuronbot)/launch/include/ydlidar_driver.launch.xml"/>
 
     <!-- Robot TF -->
     <include file="$(find adlink_neuronbot)/launch/include/neuronbot_tf.launch.xml">
-        <arg name="fake_odom_link" value="$(arg fake_odom_link)" />
+        <arg name="fake_odom_link" value="$(arg dummy_transforms)" />
         <arg name="host_robot"     value="$(arg host_robot)" />
     </include>
 

@@ -6,15 +6,15 @@
     <arg name="dummy_transforms"    default="false"/>  <!-- publish TF transform for sensor to groundplane -->
     <arg name="upper_body_detector" default="true"/>   <!-- use depth-template-based upper-body detector? -->
     <arg name="visualization"       default="false"/>   <!-- start Rviz with predefined configuration? -->
-    <arg name="rgb_image"    default="/astra_pro/rgb/image_raw"/>
-    <arg name="rgb_info"     default="/astra_pro/rgb/camera_info"/>
-    <arg name="depth_image"  default="/astra_pro/depth/image"/>
-    <arg name="depth_info"   default="/astra_pro/depth/camera_info"/>   
-    <arg name="points_topic" default="/astra_pro/depth/points" /> 
+    <arg name="rgb_image"    default="/camera/rgb/image_raw"/>
+    <arg name="rgb_info"     default="/camera/rgb/camera_info"/>
+    <arg name="depth_image"  default="/camera/depth/image"/>
+    <arg name="depth_info"   default="/camera/depth/camera_info"/>   
+    <arg name="points_topic" default="/camera/depth/points" /> 
 
     <!-- Set up dummy transforms into an imaginary robot and odom frame -->
     <group if="$(arg dummy_transforms)">       
-        <node name="tf_top2camera" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 top_base_link astra_pro_link 10"/>        
+        <node name="tf_top2camera" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 top_base_link camera_link 10"/>        
         <node name="tf_base2top"   pkg="tf" type="static_transform_publisher" args="0 0 $(arg height_above_ground) 0 0 0 base_footprint top_base_link 10"/>
         <node name="tf_odom2base"  pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 odom base_footprint 10"/>
     </group>
@@ -29,14 +29,14 @@
 
     <node pkg="rwth_ground_plane" type="ground_plane_tf_based_fixed" name="ground_plane_front_top" output="screen">
         <param name="base_footprint" value="base_footprint" type="string"/>
-        <param name="camera_frame"   value="astra_pro_depth_optical_frame" type="string"/>
+        <param name="camera_frame"   value="camera_depth_optical_frame" type="string"/>
         <param name="ground_plane"   value="$(arg ground_plane)" type="string"/>
         <param name="rate" value="30.0"/>
     </node>
 
     <!-- RGBD upper body detector -->
     <group if="$(arg upper_body_detector)">        
-        <arg name="config_file"   value="$(find adlink_neuronbot)/launch/host/include/params/config_astrapro.inp" />
+        <arg name="config_file"   value="$(find adlink_neuronbot)/launch/host/include/params/template_config.inp" />
         <arg name="template_file" value="$(find rwth_upper_body_detector)/config/upper_temp_n.txt" />
         <arg name="queue_size"    value="5" />
         <arg name="detection_id_offset"   value="3"/>

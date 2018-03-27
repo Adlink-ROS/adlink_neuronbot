@@ -1,7 +1,12 @@
 <launch>
     <arg name="pure_legs" default="true"/>
+    <!-- init pose -->
+    <arg name="init_x" default="0.662" />
+    <arg name="init_y" default="0.427" />
+    <arg name="init_a" default="2.612" />
+
     
-    <!-- Following based on people detection outputs -->
+    <!-- Following based on fused detection outputs -->
     <group unless="$(arg pure_legs)">
         <node pkg="adlink_neuronbot" type="neuronbot_following_fused.py" name="neuronbot_following"  output="screen">
             <param name="following_distance" value="0.9" type="double"/>
@@ -11,18 +16,17 @@
         </node>
     </group>
 
-    <!-- Following based on pure leg detection outputs -->
+    <!-- Following based on leg detection output -->
     <group if="$(arg pure_legs)">
         <node pkg="adlink_neuronbot" type="neuronbot_following_legs.py" name="neuronbot_following"  output="screen">
             <param name="following_distance" value="0.85" type="double"/>
             <param name="debug_info" value="True"/>
-            <param name="initPosX"  value="0.662" />
-            <param name="initPosY"  value="0.427" />
-            <param name="initOriZ"  value="0.965" />
-            <param name="initOriW"  value="0.262" />
+            <param name="initPosX"  value="$(arg init_x)" />
+            <param name="initPosY"  value="$(arg init_y)" />
+            <param name="initPosA"  value="$(arg init_a)" />
             <param name="initCovX"  value="0.5" />
             <param name="initCovY"  value="0.5" />
-            <param name="initCovY"  value="0.1" />
+            <param name="initCovA"  value="0.1" />
             <param name="map_frame" value="map" />
             <remap from="/following/legs"    to="/people_tracked"/>
             <remap from="/following/cmd_vel" to="/cmd_vel_mux/input/follow"/>

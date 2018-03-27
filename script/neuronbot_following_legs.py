@@ -62,10 +62,11 @@ class FollowMe:
         self.amclPub = rospy.Publisher('/initialpose', PoseWithCovarianceStamped, queue_size=2)
         self.initMsg = PoseWithCovarianceStamped()
         self.initMsg.header.frame_id = rospy.get_param('~map_frame', 'map')
-        self.initMsg.pose.pose.position.x = rospy.get_param('~initPosX', -1.073)  # position
-        self.initMsg.pose.pose.position.y = rospy.get_param('~initPosY', -0.088)  # position
-        self.initMsg.pose.pose.orientation.z = rospy.get_param('~initOriZ', -0.235)  # orientation
-        self.initMsg.pose.pose.orientation.w = rospy.get_param('~initOriW', 0.972)  # orientation
+        self.initMsg.pose.pose.position.x = rospy.get_param('~initPosX', 0.662)  # position
+        self.initMsg.pose.pose.position.y = rospy.get_param('~initPosY', 0.427)  # position
+        self.quaternion = tf.transformations.quaternion_from_euler(0.0, 0.0, rospy.get_param('~initPosA', 2.612))
+        self.initMsg.pose.pose.orientation.z = self.quaternion[2]  # orientation
+        self.initMsg.pose.pose.orientation.w = self.quaternion[3]  # orientation
         self.initMsg.pose.covariance[0]  = rospy.get_param('~initCovX', 0.25)  # covariance of x
         self.initMsg.pose.covariance[7]  = rospy.get_param('~initCovY', 0.25)  # covariance of y
         self.initMsg.pose.covariance[35] = rospy.get_param('~initCovA', 0.05)  # covariance of theta

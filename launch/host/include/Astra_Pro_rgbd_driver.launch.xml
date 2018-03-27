@@ -18,10 +18,10 @@ limitations under the License.
 <launch>
     <!-- General parameters -->
     <arg name="framerate"   default="30" />
-    <arg name="camera"      default="astra_pro" />
+    <arg name="camera"      default="camera" />
 
     <!-- For RGB image streaming -->
-    <arg name="rgb_camera_info_url"  default="package://adlink_neuronbot/launch/host/include/params/astra_640_480.yaml" />    
+    <arg name="rgb_camera_info_url"  default="package://adlink_neuronbot/launch/host/include/params/astra_pro_640_480.yaml" />    
 
     <group ns="$(arg camera)">
         <node name="rgb" pkg="usb_cam" type="usb_cam_node" output="screen" >

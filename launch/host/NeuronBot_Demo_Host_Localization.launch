@@ -14,33 +14,4 @@
         <arg name="init_a" value="$(arg init_a)"/>
     </include>
 
-    <!-- ***************************** -->
-    <!-- ROS 2.0 related nodes/setting -->
-    <!-- ***************************** -->
-    <!-- Parameters for autostart -->
-    <!-- robot id (default based on hostname) for swarm network -->    
-    <arg name="self_id" default="$(env HOSTNAME)" />
-
-    <!-- Setting for ROS 2-1 topics bridge -->
-    <rosparam param="topics">[{'topic':swarm_poses, 'type':geometry_msgs/TransformStamped}, {'topic':swarm_goals, 'type':geometry_msgs/TransformStamped}]</rosparam> 
-
-    <!-- tf to transform node -->
-    <node name="tf_to_transform"   pkg="adlink_neuronbot"  type="neuronbot_tf_to_transform.py" output="screen">
-        <param name="self_id" value="$(arg self_id)"/>
-        <param name="map_frame" value="map" />
-        <param name="base_frame" value="base_footprint" />
-    </node>
-
-    <!-- robot id filter node -->
-    <node name="robot_id_filter"   pkg="adlink_neuronbot"  type="neuronbot_robot_id_filter.py" output="screen">
-        <param name="self_id" value="$(arg self_id)"/>
-        <param name="map_id" value="map"/>
-        <param name="id_timeout" value="1"/> <!-- unit: sec -->
-        <param name="fake_radius" value="0.2"/> <!-- unit: meter --> 
-    </node>
-
-    <!-- Goal filter node -->
-    <node name="goal_filter"   pkg="adlink_neuronbot"  type="neuronbot_goal_filter.py" output="screen">
-        <param name="self_id" value="$(arg self_id)"/>
-    </node>
 </launch>

@@ -14,7 +14,7 @@ The purpose of this pkg is to demonstrate two main features of ADLINK Neuron min
 [Youtube Video] https://youtu.be/qA4_Hmnd_tM  
 [![alt text](http://img.youtube.com/vi/RC6XvTvTs9Y/0.jpg)](https://youtu.be/RC6XvTvTs9Y)  
 
-## Developer & Team
+## Developers & Team
 HaoChih Lin  
 Alan Chen  
 Chester Tseng  
@@ -37,7 +37,8 @@ Copyright 2018 ADLINK Technology, Inc.
   Notice: About RealSense SDK 2.0, we highly recommed binary version.  
   Testing: $ roslaunch realsense2_camera demo_pointcloud.launch  
   <br />
-* Astra Pro (alternative choose for camera)   
+* Astra Pro OR Astra (alternative choose for camera)   
+  Binary: $ sudo apt-get install ros-kinetic-astra*  
   Source: https://github.com/orbbec/ros_astra_camera  
   Notice: If possible, please buy Astra instead of Astra Pro!  
   <br />
