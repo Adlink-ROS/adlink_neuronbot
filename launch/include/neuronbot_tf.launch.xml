@@ -4,7 +4,7 @@
 
     <!-- Body TF -->
     <arg name="height_above_ground" default="1.6"/>
-    <node name="tf_top2camera" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 top_base_link astra_pro_link 10" if="$(arg host_robot)"/>        
+    <node name="tf_top2camera" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 top_base_link camera_link 10" if="$(arg host_robot)"/>        
     <node name="tf_base2top"   pkg="tf" type="static_transform_publisher" args="0 0 $(arg height_above_ground) 0 0 0 base_footprint top_base_link 10" if="$(arg host_robot)"/>
     <node name="tf_odom2base"  pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 odom base_footprint 10" if="$(arg fake_odom_link)"/>
 

@@ -38,7 +38,7 @@ limitations under the License.
     </group>
 
     <!-- Image Proc for RGB streaming -->
-    <group ns="$(arg camera)/rgb">
+    <group ns="$(arg camera)/camera">
         <node name="image_proc" pkg="image_proc" type="image_proc" output="screen" > 
         </node>
     </group>

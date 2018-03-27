@@ -6,11 +6,19 @@
     <arg name="dummy_transforms"    default="false"/>  <!-- publish TF transform for sensor to groundplane -->
     <arg name="upper_body_detector" default="true"/>   <!-- use depth-template-based upper-body detector? -->
     <arg name="visualization"       default="false"/>   <!-- start Rviz with predefined configuration? -->
-    <arg name="rgb_image"    default="/camera/rgb/image_raw"/>
-    <arg name="rgb_info"     default="/camera/rgb/camera_info"/>
-    <arg name="depth_image"  default="/camera/depth/image"/>
-    <arg name="depth_info"   default="/camera/depth/camera_info"/>   
-    <arg name="points_topic" default="/camera/depth/points" /> 
+    <arg name="camera_type"         default="D435" /> <!-- opt: Astra, Astra_Pro, D435 -->
+    
+    <arg name="rgb_image"    value="/camera/color/image_raw" if="$(eval camera_type == 'D435')" />
+    <arg name="rgb_info"     value="/camera/color/camera_info" if="$(eval camera_type == 'D435')"/>
+    <arg name="points_topic" value="/camera/depth/color/points" if="$(eval camera_type == 'D435')"/> 
+    <arg name="depth_image"  value="/camera/aligned_depth_to_color/image_rect"  if="$(eval camera_type == 'D435')"/>
+    <arg name="depth_info"   value="/camera/aligned_depth_to_color/camera_info" if="$(eval camera_type == 'D435')"/>   
+
+    <arg name="rgb_image"    value="/camera/color/image_rect_color" if="$(eval camera_type == 'Astra' or camera_type == 'Astra_Pro' )"/>
+    <arg name="rgb_info"     value="/camera/color/camera_info"      if="$(eval camera_type == 'Astra' or camera_type == 'Astra_Pro' )" />
+    <arg name="points_topic" value="/camera/depth_registered/points" if="$(eval camera_type == 'Astra' or camera_type == 'Astra_Pro' )"/> 
+    <arg name="depth_image"  value="/camera/depth_registered/sw_registered/image_rect"  if="$(eval camera_type == 'Astra' or camera_type == 'Astra_Pro' )"/>
+    <arg name="depth_info"   value="/camera/depth_registered/sw_registered/camera_info" if="$(eval camera_type == 'Astra' or camera_type == 'Astra_Pro' )"/>   
 
     <!-- Set up dummy transforms into an imaginary robot and odom frame -->
     <group if="$(arg dummy_transforms)">       

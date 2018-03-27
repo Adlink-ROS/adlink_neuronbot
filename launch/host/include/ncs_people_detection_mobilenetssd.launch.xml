@@ -20,7 +20,7 @@ limitations under the License.
     <arg name="manager"   default="manager" />
     <arg name="namespace" default="movidius_ncs_nodelet" />
     <arg name="cnn_type"  default="mobilenetssd" />
-    <arg name="input_topic"  default="/astra_pro/rgb/image_raw" />
+    <arg name="input_topic"  default="/camera/rgb/image_raw" />
  
     <include file="$(find movidius_ncs_launch)/launch/ncs_camera.launch">
         <arg name="manager"   value="$(arg manager)" />

@@ -31,7 +31,7 @@
   <arg name="auto_white_balance"              default="true" />
 
   <!-- Arguments for remapping all device namespaces -->
-  <arg name="rgb"              default="rgb" />
+  <arg name="rgb"              default="color" />
   <arg name="ir"               default="ir" />
   <arg name="depth"            default="depth" />
 

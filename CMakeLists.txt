@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## dynamic reconfigure config
 generate_dynamic_reconfigure_options(
   cfg/SwarmLayer.cfg
+  cfg/Following.cfg
 )
 
 ## custom message

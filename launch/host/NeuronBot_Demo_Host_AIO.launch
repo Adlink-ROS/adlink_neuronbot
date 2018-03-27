@@ -29,6 +29,7 @@
     <!-- Detection -->
     <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_Detection.launch">
         <arg name="dummy_transforms" value="$(arg dummy_transforms)" />
+        <arg name="camera_type" value="$(arg camera_type)" />
     </include>
 
     <!-- Following -->

@@ -40,11 +40,12 @@ Copyright 2018 ADLINK Technology, Inc.
 * Astra Pro OR Astra (alternative choose for camera)   
   Binary: $ sudo apt-get install ros-kinetic-astra*  
   Source: https://github.com/orbbec/ros_astra_camera  
-  Notice: If possible, please buy Astra instead of Astra Pro!  
+  Notice: Remember to create udev. If possible, please buy Astra instead of Astra Pro!  
   <br />
 * YDLidar   
   Source: https://github.com/EAIBOT/ydlidar  
-  Notice: could be replaced by any type of lidar.  
+  Notice: Remember to laod udev. Could be replaced by any type of lidar.  
+  Testing: $ roslaunch ydlidar x4.launch  
   <br />
 * Navigation  
   Binary: $ sudo apt-get install ros-kinetic-navigation*  
