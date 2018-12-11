@@ -1,5 +1,6 @@
 # ADLINK NeuronBot
 V3.0-NCS is a AI vision people tracker. It needs Intel Realsense D435 + Movidius NCS 1.
+
 ## Abstract  
 The purpose of this pkg is to demonstrate two main features of ADLINK Neuron miniITX platform.   
 1. Computing Power:   
@@ -68,57 +69,48 @@ Copyright 2018 ADLINK Technology, Inc.
 
   
 * Astra Pro OR Astra (alternative choose for camera)   
-  Binary: $ sudo apt-get install ros-kinetic-astra*  
+  Binary: `$ sudo apt-get install ros-kinetic-astra*`  
   Source: https://github.com/orbbec/ros_astra_camera  
   Notice: Remember to create udev. If possible, please buy Astra instead of Astra Pro!  
-  <br />
 * YDLidar   
   Source: https://github.com/EAIBOT/ydlidar  
   Notice: Remember to laod udev. Could be replaced by any type of lidar.  
-  Testing: $ roslaunch ydlidar x4.launch  
-  <br />
+  Testing: `$ roslaunch ydlidar x4.launch`  
 * Navigation  
   Binary: `$ sudo apt-get install ros-kinetic-navigation*`  
   Source: https://github.com/ros-planning/navigation  
   Notice: if "replan" mode of global planner is malfunctioned, please compile whole pkgs from source.  
   Testing: `$ roslaunch spencer_people_tracking_launch tracking_on_bagfile.launch`
-  <br />
 * SPENCER  
   Binary: https://github.com/spencer-project/spencer_people_tracking#installation-from-l-cas-package-repository  
   Source: https://github.com/spencer-project/spencer_people_tracking#installation-from-source  
   Notice: Unless you want to use HOG+SVM [CUDA required], we highly recommend binary version.  
-  <br />
-
 * leg_tracker  
   Source: https://github.com/angusleigh/leg_tracker  
   Notice: The kinetic branch only supports OpenCv 3.3 and higher ver.  
-  Testing: $ roslaunch leg_tracker demo_stationary_simple_environment.launch  
-  <br />
+  Testing: `$ roslaunch leg_tracker demo_stationary_simple_environment.launch`  
 * Turtlebot2  
-  Binaty: $ sudo apt-get install ros-kinetic-turtlebot  
+  Binaty: `$ sudo apt-get install ros-kinetic-turtlebot`  
   Source: https://github.com/turtlebot/turtlebot  
   Notice: We highly recommed you to install binary version.  
-  <br />
 
 ### Launching Steps
 * Mapping & Time Synchronizing  
-* Host robot (for following)  
-  $ roslaunch adlink_neuronbot NeuronBot_Demo_Host_AIO.launch  
+  `$ roslaunch adlink_neuronbot 
+* Host robot AI following  
+  `$ roslaunch adlink_neuronbot NeuronBot_Demo_Host_Gmapping.launch`  
+* Host robot AI following shell script  
+  `$ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Host_AutoStart.sh`  
+* **Deprecated** Client robot (for avoidance)  
+  `$ roslaunch adlink_neuronbot NeuronBot_Demo_Client_AIO.launch`  
   OR (script)  
-  $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Host_AutoStart.sh  
-* Client robot (for avoidance)  
-  $ roslaunch adlink_neuronbot NeuronBot_Demo_Client_AIO.launch  
-  OR (script)  
-  $ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Client_AutoStart.sh  
+  `$ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Client_AutoStart.sh`  
 
 ### Known Issues
-* Q: move_base replanning does not work  
-  A: update your move_base pkg to the latest one, or compile it from source  
+* Q: Errors and nothing happends after boot  
+  A: Due to large power draw from lidar and Realsense, Movidius sometimes doesn't work at the first try. Replug Realsense and Movidius and try again  
 
 ### Roadmap
-* Fix PCL detector  
-* ROS2 driver for camera  
-* Fix followMe node (fused inputs version)  
-* Create custom ROS2/DDS msg  
-* Integrate with object_analytics  
+* Lidar fused following version  
+* ROS2 migration
  
