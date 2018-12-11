@@ -101,6 +101,8 @@ Copyright 2018 ADLINK Technology, Inc.
   `$ roslaunch adlink_neuronbot NeuronBot_Demo_Host_Gmapping.launch`  
 * Host robot AI following shell script  
   `$ ./PATH_TO_WORKSPACE/adlink_neuronbot/autostart/NeuronBot_Demo_Host_AutoStart.sh`  
+* For AI viewing
+  `$ roslaunch movidius_ncs_launch ncs_stream_detection_example.launch camera_topic:=/camera/color/image_raw`
 * **Deprecated** Client robot (for avoidance)  
   `$ roslaunch adlink_neuronbot NeuronBot_Demo_Client_AIO.launch`  
   OR (script)  
