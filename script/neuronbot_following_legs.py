@@ -45,8 +45,8 @@ class FollowMe:
         self.dead_zone_theta    = rospy.get_param('~dead_zone_theta', 0.1) # +/- rad
         self.search_radius = rospy.get_param('~search_radius', 1.5) # +/- m
         self.search_theta  = rospy.get_param('~search_theta', 0.4) # +/- rad
-        self.Kp_linear  = rospy.get_param('~Kp_linear', 0.45)
-        self.Kp_angular = rospy.get_param('~Kp_angular', 1.0)
+        self.Kp_linear  = rospy.get_param('~Kp_linear', 0.8)
+        self.Kp_angular = rospy.get_param('~Kp_angular', 1.2)
         self.Ki_linear  = rospy.get_param('~Ki_linear', 0.0)
         self.Ki_angular = rospy.get_param('~Ki_angular', 0.0)
         self.Ki_factor_linear  = rospy.get_param('~Ki_factor_linear',  0.95)

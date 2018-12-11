@@ -29,9 +29,4 @@ limitations under the License.
         <arg name="input_topic"   value="$(arg input_topic)" />
     </include>
 
-    <!-- NCS Detection Node -->
-    <include file="$(find movidius_ncs_launch)/launch/ncs_stream_detection_example.launch">
-        <arg name="camera_topic"   value="$(arg input_topic)" />
-    </include>
-
 </launch>

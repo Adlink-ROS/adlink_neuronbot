@@ -1,0 +1,8 @@
+<launch>
+	<!-- AI detection box viewer-->
+	<include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_ROS2_Bridge.launch" if="$(arg swarm_mode)"/>
+	
+	<!-- rviz-->
+	<node name="tracking_visualization_rviz" pkg="rviz" type="rviz" args="-d $(find adlink_neuronbot)/rviz/people_tracked.rviz" if="$(arg visualization)"/>
+	
+</launch>

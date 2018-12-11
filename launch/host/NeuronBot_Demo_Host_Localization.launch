@@ -6,6 +6,7 @@
 
     <!-- Map server -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(find adlink_neuronbot)/map/map.yaml"/>
+	<!--<node name="map_server" pkg="map_server" type="map_server" args="$(find adlink_neuronbot)/map/map_red.yaml"/>-->
 
     <!-- Localization (amcl) -->
     <include file="$(find adlink_neuronbot)/launch/include/neuronbot_amcl_improved.launch.xml">

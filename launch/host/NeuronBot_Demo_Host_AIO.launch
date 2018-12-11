@@ -15,6 +15,7 @@
     <arg name="init_a" default="2.612" />
     <!-- swarm mode -->
     <arg name="swarm_mode" default="true" />
+	<arg name="display"    default="false" />
 
 
     <!-- **************** -->
@@ -22,8 +23,9 @@
     <!-- **************** -->
     <!-- All Drivers -->    
     <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_AllDrivers.launch">
-        <arg name="dummy_transforms" value="$(arg dummy_transforms)" />
+        <arg name="host_robot"  value="$(arg host_robot)" />
         <arg name="camera_type" value="$(arg camera_type)" />
+        <arg name="dummy_transforms" value="$(arg dummy_transforms)" />        
     </include>
 
     <!-- Detection -->
@@ -48,5 +50,8 @@
     </include>
 
     <!-- ROS2/DDS params -->
-    <include file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_ROS2_Bridge.launch" if="$(arg swarm_mode)"/>
+    <include if="$(arg swarm_mode)" file="$(find adlink_neuronbot)/launch/host/NeuronBot_Demo_Host_ROS2_Bridge.launch"/>
+	
+	<include if="$(arg display)" file="$(find adlink_neuronbot)/launch/host/NeuronBot_Display.launch"/>
+	
 </launch>

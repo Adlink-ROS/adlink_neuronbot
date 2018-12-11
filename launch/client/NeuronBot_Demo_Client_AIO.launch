@@ -1,8 +1,24 @@
 <launch>
+    <!-- ***************** -->
+    <!-- Common Parameters -->
+    <!-- ***************** -->
+    <!-- host/client -->
+    <arg name="host_robot"  default="false" />
+    <!-- init pose -->    
+    <arg name="init_x" default="-0.808" />
+    <arg name="init_y" default="-0.034" />
+    <arg name="init_a" default="-0.530" />
+
     <!-- All Drivers -->    
-    <include file="$(find adlink_neuronbot)/launch/client/NeuronBot_Demo_Client_AllDrivers.launch"/>
+    <include file="$(find adlink_neuronbot)/launch/client/NeuronBot_Demo_Client_AllDrivers.launch">
+        <arg name="host_robot"  value="$(arg host_robot)" />
+    </include>
 
     <!-- Navigation (swarm) -->
-    <include file="$(find adlink_neuronbot)/launch/client/NeuronBot_Demo_Client_Nav_Swarm.launch"/>
+    <include file="$(find adlink_neuronbot)/launch/client/NeuronBot_Demo_Client_Nav_Swarm.launch">
+        <arg name="init_x" value="$(arg init_x)"/>
+        <arg name="init_y" value="$(arg init_y)"/>
+        <arg name="init_a" value="$(arg init_a)"/>
+    </include>
 
 </launch>

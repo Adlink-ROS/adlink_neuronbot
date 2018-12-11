@@ -3,19 +3,24 @@
     <arg name="dummy_transforms" default="false" />
     <arg name="host_robot"       default="true" />
     <arg name="camera_type"      default="D435" /> <!-- opt: Astra, Astra_Pro, D435 -->
-
-    <!-- Camera Driver -->    
-    <include file="$(find adlink_neuronbot)/launch/host/include/$(arg camera_type)_rgbd_driver.launch.xml"/>
-
-    <!-- YDLidar Driver -->
-    <include file="$(find adlink_neuronbot)/launch/include/ydlidar_driver.launch.xml"/>
-
-    <!-- Robot TF -->
-    <include file="$(find adlink_neuronbot)/launch/include/neuronbot_tf.launch.xml">
+	<arg name="use_state_publisher" default="true" />
+	
+	<!-- Robot Base -->
+    <include file="$(find adlink_neuronbot)/launch/include/neuronbot_$(arg robot_base).launch.xml" />
+	
+	<!-- Robot TF -->
+	<include  if="$(arg use_state_publisher)" file="$(find tegrabot_description)/launch/robot_state_manager_neuronbot.launch"/>
+	
+    <include  unless="$(arg use_state_publisher)"  file="$(find adlink_neuronbot)/launch/include/neuronbot_tf.launch.xml">
         <arg name="fake_odom_link" value="$(arg dummy_transforms)" />
         <arg name="host_robot"     value="$(arg host_robot)" />
     </include>
 
-    <!-- Robot Base -->
-    <include file="$(find adlink_neuronbot)/launch/include/neuronbot_$(arg robot_base).launch.xml" />
+    <!-- YDLidar Driver -->
+    <include file="$(find adlink_neuronbot)/launch/include/ydlidar_driver.launch.xml"/>
+	
+	<!-- Camera Driver -->    
+	<!--<include file="$(find adlink_neuronbot)/launch/host/include/$(arg camera_type)_rgbd_driver.launch.xml"/>-->
+	<include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
+    
 </launch>
