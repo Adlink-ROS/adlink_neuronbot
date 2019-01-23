@@ -100,6 +100,20 @@ Copyright 2018 ADLINK Technology, Inc.
   Notice: We highly recommed you to install binary version.  
 
 ### Launching Steps
+#### For OmniBot
+Please also check https://github.com/Adlink-ROS/Neuron-OmniBot
+* Mapping & Time Synchronizing  
+  ```
+  $ roslaunch omni_base_driver omni_base_ekf.launch
+  $ roslaunch omni_base_slam omni_base_gmapping.launch
+  ```
+* Host robot AI following  
+  `$ roslaunch omni_base_demo ai_tracking_AIO.launch`  
+
+* For AI viewing
+  `$ roslaunch movidius_ncs_launch ncs_stream_detection_example.launch camera_topic:=/camera/color/image_raw`
+ 
+#### For NeuronBot
 * Mapping & Time Synchronizing  
   `$ roslaunch adlink_neuronbot 
 * Host robot AI following  
