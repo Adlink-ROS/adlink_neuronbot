@@ -33,15 +33,15 @@ Copyright 2018 ADLINK Technology, Inc.
 
 ## Tutorial
 ### System Prerequisite (Packages)  
-* Intel Realsense SDK 2.0  
+* Intel Realsense SDK 2.0 (librealsense)   
   Source: https://github.com/IntelRealSense/librealsense/releases/tag/v2.16.3  
-  Version: SDK 2.0 (2.16.3)  
+  Version: SDK 2.0 (2.17.1)  
   Notice: Apt install is recommanded  
   
-* Realsense D435 firmware 5.10.3
+* Realsense D435 firmware 5.10.13
   Link: [firmware](https://downloadcenter.intel.com/download/28237/Latest-Firmware-for-Intel-RealSense-D400-Product-Family?v=t) / [tools and manual](https://www.intel.com/content/www/us/en/support/articles/000028171/emerging-technologies/intel-realsense-technology.html)
   
-* Realsense ROS wrapper 2.0 (2.1.1)  
+* Realsense ROS wrapper 2.0 (2.1.3)  
   Link: https://github.com/intel-ros/realsense/releases
 
 * Intel object analytics  
@@ -63,9 +63,14 @@ Copyright 2018 ADLINK Technology, Inc.
     * object_analytics  
      `$ roslaunch realsense2_camera demo_pointcloud.launch`  
      `$ roslaunch object_analytics_launch analytics_movidius_ncs.launch input_points:=/camera/depth/color/points`  
-    * You can modify _movidius_ncs_launch/ncs_camera.launch_, so that realsense package can activate properly `realsense_ros_camera -> realsense2_camera`
+    * You can modify _movidius_ncs_launch/ncs_camera.launch_, so that realsense package can activate properly without any additional arguments
+        `realsense_ros_camera -> realsense2_camera`
+        `arg camera -> realsense`
+        `arg cnn_type -> mobilenetssd`
     * **When in doubt, unplug and replug everything**  
   
+  * rgbd_launch (as required by the realsense 2.1.3)
+    `sudo apt-get install ros-kinetic-rgbd-launch`
 
   
 * Astra Pro OR Astra (alternative choose for camera)   
